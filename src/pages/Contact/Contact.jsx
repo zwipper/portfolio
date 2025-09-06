@@ -58,7 +58,7 @@ export const Contact = () => {
         <div className="buttons">
           <div className="socials">
             <a
-              href="https://www.linkedin.com/in/teshankraut/"
+              href="https://www.linkedin.com/in/ashton-holland-4bb5ab325"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -67,14 +67,14 @@ export const Contact = () => {
               </IconButton>
             </a>
 
-            <a href="mailto:teshank.2137@gamil.com">
+            <a href="mailto:ashtholland@gmail.com">
               <IconButton bg={green}>
                 <AiOutlineMail size={40} />
               </IconButton>
             </a>
 
             <a
-              href="https://github.com/teshank2137"
+              href="https://github.com/zwipper"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -84,7 +84,7 @@ export const Contact = () => {
             </a>
 
             <a
-              href="https://drive.google.com/file/d/1zp5khZY8XGJllzt2D8K0K47yqEk_Lkj5/view?usp=sharing"
+              href="#"
               target="_blank"
               rel="noopener noreferrer"
             >

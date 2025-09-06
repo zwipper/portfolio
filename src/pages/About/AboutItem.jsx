@@ -5,7 +5,11 @@ export const AboutItem = ({ color, active, data }) => {
   return (
     <AboutItemWrapper color={color} active={active} className="about-item">
       <div className="logo">
-        <img src={data.image} alt={data.title} />
+        <img 
+          src={data.image} 
+          alt={data.title} 
+          className={data.title === "Georgia Institute of Technology" ? "college-logo" : ""}
+        />
       </div>
       <div className="text">
         <h3>{data.title}</h3>

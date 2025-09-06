@@ -14,12 +14,13 @@ const Skills = () => {
   };
   const skills = [
     "Python",
+    "Java",
     "JavaScript",
     "TypeScript",
-    "Dart",
+    "C",
     "HTML",
     "CSS",
-    "Django",
+    "Figma",
     "Flutter",
     "ReactJs",
     "NextJS",

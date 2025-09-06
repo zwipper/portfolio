@@ -33,11 +33,6 @@ npm run dev
 ## Usage
 After running the application, you can navigate through the portfolio to explore my software engineering projects. The interactive 3D elements powered by ThreeJS can be interacted with to gain a dynamic view of my skills and experiences.
 
-## Credit/Attribution
-If you are using this code or any part of it in your projects, I kindly request that you give proper credit by linking back to my portfolio or GitHub repository. Please include the following line in your project's documentation or credits section:
-
-"Portions of this code were developed by Teshank Raut. You can find the original project at https://teshank.dev or https://github.com/teshank2137/portfolio."
-
 ## License
 This project is licensed under the Apache License 2.0 - see the LICENSE file for details.
 

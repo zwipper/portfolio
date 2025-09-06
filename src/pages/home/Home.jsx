@@ -40,13 +40,13 @@ export const Home = () => {
   return (
     <HomeWrapper ref={ref} id="home-page">
       <TextContainer>
-        <Name>Teshank Raut</Name>
+        <Name>Ashton Holland</Name>
         <Position>
-          <div className="text first" aria-label="Full Stack Developer">
-            {produceSpans("Full Stack Developer")}
+          <div className="text first" aria-label="Software Engineer">
+            {produceSpans("Software Engineer")}
           </div>
-          <div className="text second" aria-label="UI/UX Enthusiast">
-            {produceSpans("UI/UX Enthusiast")}
+          <div className="text second" aria-label="Problem Solver">
+            {produceSpans("Team Player")}
           </div>
         </Position>
       </TextContainer>
