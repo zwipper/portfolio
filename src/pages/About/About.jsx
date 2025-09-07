@@ -73,7 +73,13 @@ export const About = () => {
         </Text>
         <SkillsWrapper>
           {show ? (
-            <Canvas camera={{ position: [0, 0, 18] }}>
+            <Canvas 
+              camera={{ position: [0, 0, 18] }}
+              gl={{ antialias: true, alpha: true }}
+              dpr={[1, 2]}
+              onPointerMissed={() => {}}
+              style={{ touchAction: 'manipulation' }}
+            >
               <Skills />
             </Canvas>
           ) : (

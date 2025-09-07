@@ -17,6 +17,12 @@ export const DogContainer = styled.aside`
   @media screen and (max-width: 920px) {
     grid-column: 1/ 13;
     align-self: start;
+    height: 60vh;
+    min-height: 400px;
+  }
+  
+  canvas {
+    touch-action: manipulation;
   }
 `;
 

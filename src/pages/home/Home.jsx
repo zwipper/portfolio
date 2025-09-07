@@ -51,7 +51,13 @@ export const Home = () => {
         </Position>
       </TextContainer>
       <DogContainer>
-        <Canvas camera={{ position: [0, 2, 5] }}>
+        <Canvas 
+          camera={{ position: [0, 2, 5] }}
+          gl={{ antialias: true, alpha: true }}
+          dpr={[1, 2]}
+          onPointerMissed={() => {}}
+          style={{ touchAction: 'manipulation' }}
+        >
           <Dog />
         </Canvas>
       </DogContainer>

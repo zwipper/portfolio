@@ -36,5 +36,11 @@ export const SkillsWrapper = styled.aside`
   width: 100%;
   @media screen and (max-width: 720px) {
     grid-column: 1 / 7;
+    height: 50vh;
+    min-height: 350px;
+  }
+  
+  canvas {
+    touch-action: manipulation;
   }
 `;
