@@ -1,8 +1,9 @@
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import gsap from "gsap";
 import Flip from "gsap/Flip";
 import React, { useEffect, useRef } from "react";
+import * as THREE from "three";
 import { Page } from "../../components/Page";
 import { blue, green, yellow } from "../../utils";
 import { Educations, Paragraph, SkillsWrapper, Text } from "./About.styled";
@@ -17,42 +18,60 @@ export const About = () => {
   const { ref, inView } = useInView({});
   const [show, setShow] = useState(inView);
   const skillsControlsRef = useRef();
+  const skillsSceneRef = useRef();
+  const skillsCameraRef = useRef();
   
   useEffect(() => {
     setShow(inView);
   }, [inView]);
 
+  // Raycaster component for skills ball
+  const SkillsRaycastDetector = () => {
+    const { scene, camera } = useThree();
+    
+    useEffect(() => {
+      skillsSceneRef.current = scene;
+      skillsCameraRef.current = camera;
+    }, [scene, camera]);
+    
+    return null;
+  };
+
   const handleSkillsPointerDown = (event) => {
-    if (!skillsControlsRef.current) return;
+    if (!skillsControlsRef.current || !skillsSceneRef.current || !skillsCameraRef.current) return;
     
     const canvas = event.target;
     const rect = canvas.getBoundingClientRect();
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const touchX = event.clientX - rect.left;
-    const touchY = event.clientY - rect.top;
     
-    const distance = Math.sqrt(
-      Math.pow(touchX - centerX, 2) + Math.pow(touchY - centerY, 2)
-    );
+    // Convert screen coordinates to normalized device coordinates (-1 to +1)
+    const mouse = new THREE.Vector2();
+    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
     
-    // Get current zoom level (camera distance from target)
-    const camera = skillsControlsRef.current.object;
-    const currentDistance = camera.position.distanceTo(skillsControlsRef.current.target);
+    // Create raycaster
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse, skillsCameraRef.current);
     
-    // Scale interaction area based on zoom (closer zoom = larger interaction area)
-    const minDistance = 12; // min zoom distance for skills ball
-    const maxDistance = 22; // max zoom distance for skills ball
-    const zoomFactor = 1 - ((currentDistance - minDistance) / (maxDistance - minDistance));
-    const baseInteractionSize = 0.08; // 8% base size (much smaller)
-    const scaledInteractionSize = baseInteractionSize + (zoomFactor * 0.15); // up to 25% when fully zoomed in
+    // Get all mesh objects in the scene
+    const meshes = [];
+    skillsSceneRef.current.traverse((child) => {
+      if (child.isMesh) {
+        meshes.push(child);
+      }
+    });
     
-    const maxAllowedDistance = Math.min(rect.width, rect.height) * scaledInteractionSize;
+    // Check for intersections
+    const intersects = raycaster.intersectObjects(meshes, true);
     
-    if (distance > maxAllowedDistance) {
-      skillsControlsRef.current.enabled = false;
+    // If no intersection with 3D objects, disable ALL controls (rotate AND zoom)
+    if (intersects.length === 0) {
+      skillsControlsRef.current.enableRotate = false;
+      skillsControlsRef.current.enableZoom = false;
       setTimeout(() => {
-        if (skillsControlsRef.current) skillsControlsRef.current.enabled = true;
+        if (skillsControlsRef.current) {
+          skillsControlsRef.current.enableRotate = true;
+          skillsControlsRef.current.enableZoom = true;
+        }
       }, 100);
     }
   };
@@ -118,6 +137,7 @@ export const About = () => {
               onPointerDown={handleSkillsPointerDown}
               style={{ touchAction: 'pan-y' }}
             >
+              <SkillsRaycastDetector />
               <OrbitControls 
                 ref={skillsControlsRef}
                 enablePan={false}

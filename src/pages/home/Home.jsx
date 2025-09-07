@@ -1,6 +1,7 @@
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import React, { useContext, useEffect, useRef } from "react";
+import * as THREE from "three";
 import { useInView } from "react-intersection-observer";
 import { NavbarContext } from "../../context";
 import Dog from "./Dog";
@@ -20,38 +21,56 @@ export const Home = () => {
 
   const setPage = useContext(NavbarContext);
   const controlsRef = useRef();
+  const sceneRef = useRef();
+  const cameraRef = useRef();
+
+  // Raycaster component to detect 3D object hits
+  const RaycastDetector = () => {
+    const { scene, camera } = useThree();
+    
+    useEffect(() => {
+      sceneRef.current = scene;
+      cameraRef.current = camera;
+    }, [scene, camera]);
+    
+    return null;
+  };
 
   const handlePointerDown = (event) => {
-    if (!controlsRef.current) return;
+    if (!controlsRef.current || !sceneRef.current || !cameraRef.current) return;
     
     const canvas = event.target;
     const rect = canvas.getBoundingClientRect();
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const touchX = event.clientX - rect.left;
-    const touchY = event.clientY - rect.top;
     
-    const distance = Math.sqrt(
-      Math.pow(touchX - centerX, 2) + Math.pow(touchY - centerY, 2)
-    );
+    // Convert screen coordinates to normalized device coordinates (-1 to +1)
+    const mouse = new THREE.Vector2();
+    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
     
-    // Get current zoom level (camera distance from target)
-    const camera = controlsRef.current.object;
-    const currentDistance = camera.position.distanceTo(controlsRef.current.target);
+    // Create raycaster
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse, cameraRef.current);
     
-    // Scale interaction area based on zoom (closer zoom = larger interaction area)
-    const minDistance = 3; // min zoom distance
-    const maxDistance = 8; // max zoom distance
-    const zoomFactor = 1 - ((currentDistance - minDistance) / (maxDistance - minDistance));
-    const baseInteractionSize = 0.08; // 8% base size (much smaller)
-    const scaledInteractionSize = baseInteractionSize + (zoomFactor * 0.15); // up to 30% when fully zoomed in
+    // Get all mesh objects in the scene
+    const meshes = [];
+    sceneRef.current.traverse((child) => {
+      if (child.isMesh) {
+        meshes.push(child);
+      }
+    });
     
-    const maxAllowedDistance = Math.min(rect.width, rect.height) * scaledInteractionSize;
+    // Check for intersections
+    const intersects = raycaster.intersectObjects(meshes, true);
     
-    if (distance > maxAllowedDistance) {
-      controlsRef.current.enabled = false;
+    // If no intersection with 3D objects, disable ALL controls (rotate AND zoom)
+    if (intersects.length === 0) {
+      controlsRef.current.enableRotate = false;
+      controlsRef.current.enableZoom = false;
       setTimeout(() => {
-        if (controlsRef.current) controlsRef.current.enabled = true;
+        if (controlsRef.current) {
+          controlsRef.current.enableRotate = true;
+          controlsRef.current.enableZoom = true;
+        }
       }, 100);
     }
   };
@@ -95,6 +114,7 @@ export const Home = () => {
           onPointerDown={handlePointerDown}
           style={{ touchAction: 'pan-y' }}
         >
+          <RaycastDetector />
           <OrbitControls 
             ref={controlsRef}
             enablePan={false}
