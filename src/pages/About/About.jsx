@@ -40,22 +40,28 @@ export const About = () => {
   const handleSkillsPointerDown = (event) => {
     if (!skillsControlsRef.current || !skillsSceneRef.current || !skillsCameraRef.current) return;
     
+    // Always allow multi-touch (pinch to zoom)
+    const touches = event.touches || [];
+    if (touches.length > 1) {
+      return;
+    }
+    
     const canvas = event.target;
     const rect = canvas.getBoundingClientRect();
     
-    // Convert screen coordinates to normalized device coordinates (-1 to +1)
+    // Convert to normalized coordinates
     const mouse = new THREE.Vector2();
     mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
     
-    // Create raycaster
+    // Create raycaster with tighter precision
     const raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse, skillsCameraRef.current);
     
-    // Get all mesh objects in the scene
+    // Only get mesh objects, be more selective
     const meshes = [];
     skillsSceneRef.current.traverse((child) => {
-      if (child.isMesh) {
+      if (child.isMesh && child.geometry) {
         meshes.push(child);
       }
     });
@@ -63,16 +69,24 @@ export const About = () => {
     // Check for intersections
     const intersects = raycaster.intersectObjects(meshes, true);
     
-    // If no intersection with 3D objects, disable ALL controls (rotate AND zoom)
-    if (intersects.length === 0) {
-      skillsControlsRef.current.enableRotate = false;
-      skillsControlsRef.current.enableZoom = false;
+    // Default to scroll-friendly: disable rotation unless clearly touching object
+    skillsControlsRef.current.enableRotate = false;
+    
+    // Only enable rotation if we have a clear hit on a 3D object
+    if (intersects.length > 0) {
+      // Add a small delay to distinguish from scroll intent
       setTimeout(() => {
         if (skillsControlsRef.current) {
           skillsControlsRef.current.enableRotate = true;
-          skillsControlsRef.current.enableZoom = true;
         }
-      }, 100);
+      }, 150);
+    } else {
+      // Re-enable after a short delay to reset state
+      setTimeout(() => {
+        if (skillsControlsRef.current) {
+          skillsControlsRef.current.enableRotate = true;
+        }
+      }, 200);
     }
   };
 
