@@ -44,7 +44,7 @@ export const SkillsWrapper = styled.aside`
   }
   
   canvas {
-    touch-action: manipulation;
+    touch-action: pan-y;
     pointer-events: auto;
   }
 `;

@@ -79,7 +79,7 @@ export const About = () => {
               gl={{ antialias: true, alpha: true }}
               dpr={[1, 2]}
               onPointerMissed={() => {}}
-              style={{ touchAction: 'manipulation' }}
+              style={{ touchAction: 'pan-y' }}
             >
               <OrbitControls 
                 enablePan={false}
@@ -94,6 +94,17 @@ export const About = () => {
                 minPolarAngle={0}
                 enableDamping={true}
                 dampingFactor={0.05}
+                rotateSpeed={0.3}
+                zoomSpeed={0.5}
+                touches={{
+                  ONE: null,
+                  TWO: 2
+                }}
+                mouseButtons={{
+                  LEFT: null,
+                  MIDDLE: 1,
+                  RIGHT: 0
+                }}
               />
               <Skills />
             </Canvas>

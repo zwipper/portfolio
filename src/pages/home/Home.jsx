@@ -57,7 +57,7 @@ export const Home = () => {
           gl={{ antialias: true, alpha: true }}
           dpr={[1, 2]}
           onPointerMissed={() => {}}
-          style={{ touchAction: 'manipulation' }}
+          style={{ touchAction: 'pan-y' }}
         >
           <OrbitControls 
             enablePan={false}
@@ -68,6 +68,19 @@ export const Home = () => {
             target={[0, 0, 0]}
             maxPolarAngle={Math.PI}
             minPolarAngle={0}
+            rotateSpeed={0.3}
+            zoomSpeed={0.5}
+            enableDamping={true}
+            dampingFactor={0.05}
+            touches={{
+              ONE: null,
+              TWO: 2
+            }}
+            mouseButtons={{
+              LEFT: null,
+              MIDDLE: 1,
+              RIGHT: 0
+            }}
           />
           <Dog />
         </Canvas>

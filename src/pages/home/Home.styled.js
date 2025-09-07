@@ -22,7 +22,7 @@ export const DogContainer = styled.aside`
   }
   
   canvas {
-    touch-action: manipulation;
+    touch-action: pan-y;
   }
 `;
 
