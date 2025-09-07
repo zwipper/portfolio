@@ -22,7 +22,7 @@ export const Contact = () => {
     <Page header="Contact">
       <ContactWrapper>
         <ContactForm
-          action="https://formspree.io/f/mbjbvlpv"
+          action="https://formspree.io/f/mqadwqlp"
           method="POST"
           name="contact"
           id="contactform"
