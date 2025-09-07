@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 import { NavbarContext } from "../../context";
 import Dog from "./Dog";
@@ -19,6 +19,31 @@ export const Home = () => {
   });
 
   const setPage = useContext(NavbarContext);
+  const controlsRef = useRef();
+
+  const handlePointerDown = (event) => {
+    if (!controlsRef.current) return;
+    
+    const canvas = event.target;
+    const rect = canvas.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const touchX = event.clientX - rect.left;
+    const touchY = event.clientY - rect.top;
+    
+    const distance = Math.sqrt(
+      Math.pow(touchX - centerX, 2) + Math.pow(touchY - centerY, 2)
+    );
+    
+    const maxDistance = Math.min(rect.width, rect.height) * 0.3; // 30% of canvas size
+    
+    if (distance > maxDistance) {
+      controlsRef.current.enabled = false;
+      setTimeout(() => {
+        if (controlsRef.current) controlsRef.current.enabled = true;
+      }, 100);
+    }
+  };
 
   useEffect(() => {
     if (inView) {
@@ -56,10 +81,11 @@ export const Home = () => {
           camera={{ position: [0, 2, 5] }}
           gl={{ antialias: true, alpha: true }}
           dpr={[1, 2]}
-          onPointerMissed={() => {}}
+          onPointerDown={handlePointerDown}
           style={{ touchAction: 'pan-y' }}
         >
           <OrbitControls 
+            ref={controlsRef}
             enablePan={false}
             enableZoom={true}
             enableRotate={true}
@@ -68,19 +94,10 @@ export const Home = () => {
             target={[0, 0, 0]}
             maxPolarAngle={Math.PI}
             minPolarAngle={0}
-            rotateSpeed={0.3}
-            zoomSpeed={0.5}
+            rotateSpeed={0.5}
+            zoomSpeed={0.8}
             enableDamping={true}
             dampingFactor={0.05}
-            touches={{
-              ONE: null,
-              TWO: 2
-            }}
-            mouseButtons={{
-              LEFT: null,
-              MIDDLE: 1,
-              RIGHT: 0
-            }}
           />
           <Dog />
         </Canvas>

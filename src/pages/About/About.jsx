@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import gsap from "gsap";
 import Flip from "gsap/Flip";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Page } from "../../components/Page";
 import { blue, green, yellow } from "../../utils";
 import { Educations, Paragraph, SkillsWrapper, Text } from "./About.styled";
@@ -16,9 +16,35 @@ import { useState } from "react";
 export const About = () => {
   const { ref, inView } = useInView({});
   const [show, setShow] = useState(inView);
+  const skillsControlsRef = useRef();
+  
   useEffect(() => {
     setShow(inView);
   }, [inView]);
+
+  const handleSkillsPointerDown = (event) => {
+    if (!skillsControlsRef.current) return;
+    
+    const canvas = event.target;
+    const rect = canvas.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const touchX = event.clientX - rect.left;
+    const touchY = event.clientY - rect.top;
+    
+    const distance = Math.sqrt(
+      Math.pow(touchX - centerX, 2) + Math.pow(touchY - centerY, 2)
+    );
+    
+    const maxDistance = Math.min(rect.width, rect.height) * 0.25; // 25% of canvas size
+    
+    if (distance > maxDistance) {
+      skillsControlsRef.current.enabled = false;
+      setTimeout(() => {
+        if (skillsControlsRef.current) skillsControlsRef.current.enabled = true;
+      }, 100);
+    }
+  };
 
   useEffect(() => {
     gsap.registerPlugin(Flip);
@@ -78,10 +104,11 @@ export const About = () => {
               camera={{ position: [0, 0, 18] }}
               gl={{ antialias: true, alpha: true }}
               dpr={[1, 2]}
-              onPointerMissed={() => {}}
+              onPointerDown={handleSkillsPointerDown}
               style={{ touchAction: 'pan-y' }}
             >
               <OrbitControls 
+                ref={skillsControlsRef}
                 enablePan={false}
                 enableZoom={true}
                 enableRotate={true}
@@ -94,17 +121,8 @@ export const About = () => {
                 minPolarAngle={0}
                 enableDamping={true}
                 dampingFactor={0.05}
-                rotateSpeed={0.3}
-                zoomSpeed={0.5}
-                touches={{
-                  ONE: null,
-                  TWO: 2
-                }}
-                mouseButtons={{
-                  LEFT: null,
-                  MIDDLE: 1,
-                  RIGHT: 0
-                }}
+                rotateSpeed={0.5}
+                zoomSpeed={0.8}
               />
               <Skills />
             </Canvas>
