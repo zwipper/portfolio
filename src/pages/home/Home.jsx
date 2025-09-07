@@ -35,9 +35,20 @@ export const Home = () => {
       Math.pow(touchX - centerX, 2) + Math.pow(touchY - centerY, 2)
     );
     
-    const maxDistance = Math.min(rect.width, rect.height) * 0.3; // 30% of canvas size
+    // Get current zoom level (camera distance from target)
+    const camera = controlsRef.current.object;
+    const currentDistance = camera.position.distanceTo(controlsRef.current.target);
     
-    if (distance > maxDistance) {
+    // Scale interaction area based on zoom (closer zoom = larger interaction area)
+    const minDistance = 3; // min zoom distance
+    const maxDistance = 8; // max zoom distance
+    const zoomFactor = 1 - ((currentDistance - minDistance) / (maxDistance - minDistance));
+    const baseInteractionSize = 0.3; // 30% base size
+    const scaledInteractionSize = baseInteractionSize + (zoomFactor * 0.2); // up to 50% when fully zoomed in
+    
+    const maxAllowedDistance = Math.min(rect.width, rect.height) * scaledInteractionSize;
+    
+    if (distance > maxAllowedDistance) {
       controlsRef.current.enabled = false;
       setTimeout(() => {
         if (controlsRef.current) controlsRef.current.enabled = true;

@@ -36,9 +36,20 @@ export const About = () => {
       Math.pow(touchX - centerX, 2) + Math.pow(touchY - centerY, 2)
     );
     
-    const maxDistance = Math.min(rect.width, rect.height) * 0.25; // 25% of canvas size
+    // Get current zoom level (camera distance from target)
+    const camera = skillsControlsRef.current.object;
+    const currentDistance = camera.position.distanceTo(skillsControlsRef.current.target);
     
-    if (distance > maxDistance) {
+    // Scale interaction area based on zoom (closer zoom = larger interaction area)
+    const minDistance = 12; // min zoom distance for skills ball
+    const maxDistance = 22; // max zoom distance for skills ball
+    const zoomFactor = 1 - ((currentDistance - minDistance) / (maxDistance - minDistance));
+    const baseInteractionSize = 0.25; // 25% base size
+    const scaledInteractionSize = baseInteractionSize + (zoomFactor * 0.25); // up to 50% when fully zoomed in
+    
+    const maxAllowedDistance = Math.min(rect.width, rect.height) * scaledInteractionSize;
+    
+    if (distance > maxAllowedDistance) {
       skillsControlsRef.current.enabled = false;
       setTimeout(() => {
         if (skillsControlsRef.current) skillsControlsRef.current.enabled = true;
