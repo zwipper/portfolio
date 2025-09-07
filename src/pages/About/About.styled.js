@@ -25,6 +25,8 @@ export const Educations = styled.section`
 export const Text = styled.aside`
   grid-column: 2/7;
   width: 100%;
+  position: relative;
+  z-index: 2;
   @media screen and (max-width: 720px) {
     grid-column: 1 / 7;
     padding-inline: 1rem;
@@ -41,6 +43,7 @@ export const SkillsWrapper = styled.aside`
     margin-top: 2rem;
     position: relative;
     z-index: 1;
+    pointer-events: none;
   }
   
   canvas {

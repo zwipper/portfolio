@@ -44,8 +44,8 @@ export const About = () => {
     const minDistance = 12; // min zoom distance for skills ball
     const maxDistance = 22; // max zoom distance for skills ball
     const zoomFactor = 1 - ((currentDistance - minDistance) / (maxDistance - minDistance));
-    const baseInteractionSize = 0.25; // 25% base size
-    const scaledInteractionSize = baseInteractionSize + (zoomFactor * 0.25); // up to 50% when fully zoomed in
+    const baseInteractionSize = 0.1; // 10% base size (much smaller)
+    const scaledInteractionSize = baseInteractionSize + (zoomFactor * 0.15); // up to 25% when fully zoomed in
     
     const maxAllowedDistance = Math.min(rect.width, rect.height) * scaledInteractionSize;
     
