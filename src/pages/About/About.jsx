@@ -1,4 +1,5 @@
 import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
 import gsap from "gsap";
 import Flip from "gsap/Flip";
 import React, { useEffect } from "react";
@@ -80,6 +81,16 @@ export const About = () => {
               onPointerMissed={() => {}}
               style={{ touchAction: 'manipulation' }}
             >
+              <OrbitControls 
+                enablePan={true}
+                enableZoom={true}
+                enableRotate={true}
+                minDistance={12}
+                maxDistance={25}
+                target={[0, 0, 0]}
+                autoRotate={true}
+                autoRotateSpeed={1}
+              />
               <Skills />
             </Canvas>
           ) : (

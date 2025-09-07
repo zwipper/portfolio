@@ -1,4 +1,5 @@
 import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
 import React, { useContext, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { NavbarContext } from "../../context";
@@ -58,6 +59,14 @@ export const Home = () => {
           onPointerMissed={() => {}}
           style={{ touchAction: 'manipulation' }}
         >
+          <OrbitControls 
+            enablePan={true}
+            enableZoom={true}
+            enableRotate={true}
+            minDistance={3}
+            maxDistance={10}
+            target={[0, 0, 0]}
+          />
           <Dog />
         </Canvas>
       </DogContainer>
