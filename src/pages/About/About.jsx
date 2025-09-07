@@ -82,14 +82,18 @@ export const About = () => {
               style={{ touchAction: 'manipulation' }}
             >
               <OrbitControls 
-                enablePan={true}
+                enablePan={false}
                 enableZoom={true}
                 enableRotate={true}
                 minDistance={12}
-                maxDistance={25}
+                maxDistance={22}
                 target={[0, 0, 0]}
                 autoRotate={true}
-                autoRotateSpeed={1}
+                autoRotateSpeed={0.5}
+                maxPolarAngle={Math.PI}
+                minPolarAngle={0}
+                enableDamping={true}
+                dampingFactor={0.05}
               />
               <Skills />
             </Canvas>

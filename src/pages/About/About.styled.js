@@ -38,9 +38,13 @@ export const SkillsWrapper = styled.aside`
     grid-column: 1 / 7;
     height: 50vh;
     min-height: 350px;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 1;
   }
   
   canvas {
     touch-action: manipulation;
+    pointer-events: auto;
   }
 `;

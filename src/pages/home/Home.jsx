@@ -60,12 +60,14 @@ export const Home = () => {
           style={{ touchAction: 'manipulation' }}
         >
           <OrbitControls 
-            enablePan={true}
+            enablePan={false}
             enableZoom={true}
             enableRotate={true}
             minDistance={3}
-            maxDistance={10}
+            maxDistance={8}
             target={[0, 0, 0]}
+            maxPolarAngle={Math.PI}
+            minPolarAngle={0}
           />
           <Dog />
         </Canvas>
