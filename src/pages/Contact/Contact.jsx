@@ -84,7 +84,7 @@ export const Contact = () => {
             </a>
 
             <a
-              href="#"
+              href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
             >

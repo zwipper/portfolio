@@ -49,7 +49,7 @@ export const About = () => {
         <Text>
           <Paragraph>
             I’m a passionate programmer who’s always looking for new challenges to push myself further. I’m also a team player who’s ready to learn new things and help others whenever I can. 
-            <br/> I was born and raised in Arizona, and outside of coding I love competing in sports, improving at chess, watching movies, playing with my dog, learning new flips, and playing video games!
+            <br/> I was born and raised in Arizona, and outside of coding I love competing in sports, improving at chess, watching movies, playing with my dog, and learning new flips!
           </Paragraph>
           <Educations>
             <AboutItem
@@ -57,7 +57,7 @@ export const About = () => {
               active
               data={{
                 title: "Georgia Institute of Technology",
-                p: "Bachelors of Computer Science (2023-2026)",
+                p: "B.S. Computer Science (2023-2026)",
                 image: college,
               }}
             />

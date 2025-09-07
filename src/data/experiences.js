@@ -9,7 +9,7 @@ export const experiences = [
     joined: "June'25",
     end: "August'25",
     title: "Software Engineering Intern",
-    bio: "Working on software development projects and gaining experience in enterprise-level systems and development practices.",
+    bio: "Built a full-stack analytics platform to evaluate promotions across 1M+ SKUs, driving $3M+ margin gains through AI-powered insights, price elasticity modeling, and executive-level dashboards.",
     color: blue,
   },
   {
@@ -17,8 +17,8 @@ export const experiences = [
     name: "Voltihost",
     joined: "May'24",
     end: "August'24",
-    title: "Software Developer",
-    bio: "Contributed to startup development projects and helped build innovative solutions in a fast-paced environment.",
+    title: "Software Engineering Intern",
+    bio: "Engineered AWS data pipelines and deployed containerized email services, cutting processing load by 83% and costs by 97% while expanding mobile reporting features.",
     color: green,
   },
 ];
