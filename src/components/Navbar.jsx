@@ -102,6 +102,15 @@ export const Navbar = ({ children }) => {
             <NavbarItem
               className="navbar-item"
               onClick={handelDotMovement}
+              id="memories"
+            >
+              Memories
+            </NavbarItem>
+          </li>
+          <li>
+            <NavbarItem
+              className="navbar-item"
+              onClick={handelDotMovement}
               id="contact"
             >
               Contact
@@ -115,3 +124,4 @@ export const Navbar = ({ children }) => {
     </>
   );
 };
+

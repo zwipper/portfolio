@@ -8,7 +8,7 @@ export const experiences = [
     name: "Dell",
     joined: "June'25",
     end: "August'25",
-    title: "Software Engineering Intern",
+    title: "Technical Product Management Intern",
     bio: "Built a full-stack analytics platform to evaluate promotions across 1M+ SKUs, driving $3M+ margin gains through AI-powered insights, price elasticity modeling, and executive-level dashboards.",
     color: blue,
   },
@@ -22,3 +22,4 @@ export const experiences = [
     color: green,
   },
 ];
+

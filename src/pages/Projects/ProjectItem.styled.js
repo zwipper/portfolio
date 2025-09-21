@@ -20,10 +20,12 @@ export const Cube = styled.div`
   display: flex;
   align-items: flex-end;
   flex-shrink: 0;
+  transition: all 0.25s cubic-bezier(0.4, 0.55, 0.2, 1.03);
+
   &:hover {
     transform: rotateY(0) scale(1.5) translateX(20%) translateY(-20%);
   }
-  transition: all 0.2s cubic-bezier(0.4, 0.55, 0.2, 1.03);
+
   @media screen and (max-width: 720px) {
     width: 270px;
     height: 340px;
@@ -79,9 +81,18 @@ export const Face = styled.div`
       right: 0;
       z-index: -1;
       transition: all 0.2s ease;
-      background-image: url(${(props) => props.image});
+      background-image: ${(props) =>
+        props.image ? `url(${props.image})` : "none"};
       background-size: auto 200px;
       background-position: center;
+      background-repeat: no-repeat;
+      background-color: ${blue["40"]};
+
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
     .content {
@@ -104,7 +115,7 @@ export const Face = styled.div`
         transform: scale(0.8);
         height: 100%;
       }
-      .img {
+      .img:not(.no-dim) {
         filter: brightness(20%) grayscale(100%);
       }
     }

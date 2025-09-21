@@ -120,7 +120,7 @@ export const About = () => {
         <Text>
           <Paragraph>
             I’m a passionate programmer who’s always looking for new challenges to push myself further. I’m also a team player who’s ready to learn new things and help others whenever I can. 
-            <br/> I was born and raised in Arizona, and outside of coding I love competing in sports, improving at chess, watching movies, playing with my dog, and learning new flips!
+            <br/> I was born and raised in Arizona, and outside of coding I love competing in sports, improving at chess, going to the gym, trying new food, watching movies, playing with my dog, and learning new flips! (to name a few)
           </Paragraph>
           <Educations>
             <AboutItem

@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
-import { PageHeader, PageHeaderStyled } from "../../components/ui";
-import { blue, pink, typeScale } from "../../utils";
+import { PageHeaderStyled } from "../../components/ui";
+import { blue, typeScale } from "../../utils";
 
 export const HomeWrapper = styled.main`
   display: grid;
@@ -20,7 +20,7 @@ export const DogContainer = styled.aside`
     height: 60vh;
     min-height: 400px;
   }
-  
+
   canvas {
     touch-action: pan-y;
   }
@@ -66,34 +66,23 @@ export const Name = styled.h1`
   }
 `;
 
-const textRotate1 = keyframes`
-0%{
-  transform: translate3d(0, 0%, 0) rotateX(0deg)
-}
-40%{
-  transform: translate3d(0, 0%, 0) rotateX(0deg)
-}
-60%{
-  transform: translate3d(0, -100%, 0) rotateX(-90deg);
-}
-100%{
-  transform: translate3d(0, -100%, 0) rotateX(-90deg);
-}
-`;
-
-const textRotate2 = keyframes`
-0%{
-  transform: translate3d(0, 100%, 0) rotateX(-90deg);
-}
-40%{
-  transform: translate3d(0, 100%, 0) rotateX(-90deg);
-}
-60%{
-  transform: translate3d(0, 0%, 0) rotateX(0deg);
-}
-100%{
-  transform: translate3d(0, 0%, 0) rotateX(0deg);
-}
+const textCycle = keyframes`
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 40%, 0);
+  }
+  15% {
+    opacity: 1;
+    transform: translate3d(0, 0%, 0);
+  }
+  85% {
+    opacity: 1;
+    transform: translate3d(0, 0%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -20%, 0);
+  }
 `;
 
 export const Position = styled(PageHeaderStyled)`
@@ -108,26 +97,15 @@ export const Position = styled(PageHeaderStyled)`
   position: relative;
   color: ${blue["50"]};
   cursor: default;
+
   .text {
-    span {
-      display: inline-block;
-      will-change: transform;
-      transform-style: preserve-3d;
-      transform-origin: bottom;
-      animation: ${textRotate1} 2.4s infinite alternate;
-    }
-    &.second {
-      color: ${pink["50"]};
-      position: absolute;
-      top: 2%;
-      left: 0;
-      span {
-        transform-origin: bottom;
-        transform: translate3d(0, 100%, 0) rotateX(-90deg);
-        animation: ${textRotate2} 2.4s infinite alternate;
-      }
-    }
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0;
+    align-items: center;
+    animation: ${textCycle} 3.2s ease-in-out both;
   }
+
   @media screen and (max-width: 1204px) {
     font-size: ${typeScale.title};
   }
@@ -137,14 +115,17 @@ export const Position = styled(PageHeaderStyled)`
     display: flex;
     justify-content: center;
     align-items: center;
-    .text.second {
-      left: auto;
-    }
+    text-align: center;
   }
 `;
 
 export const AnimatedSpan = styled.span`
+  display: inline-block;
+  will-change: transform;
+  transform-style: preserve-3d;
+  transform-origin: bottom;
   transition: 0.5s;
   animation-delay: ${(props) => props.index * 0.05}s !important;
   padding: ${(props) => (props.letter === " " ? "0.325rem" : null)};
 `;
+

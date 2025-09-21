@@ -29,5 +29,11 @@ ${normalize()}
 body {
   margin: 0;
   min-height: 100vh;
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 `;
+
