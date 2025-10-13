@@ -6,14 +6,25 @@ export const MemoriesContainer = styled.section`
   width: 100%;
   display: flex;
   justify-content: center;
+  align-self: center;
+  transition: transform 1s cubic-bezier(0.46, 0.35, 0, 1.27);
   padding-bottom: 4rem;
 
   .wrapper {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 4rem;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: center;
     width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    padding-inline-end: 2rem;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   @media screen and (max-width: 720px) {

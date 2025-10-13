@@ -11,10 +11,13 @@ import {
   OverlayButton,
 } from "./Memories.styled";
 import { MemoryItem } from "./MemoryItem";
+import { Carasoul } from "../Projects/Projects.styled";
+import { NextButton } from "../Projects/carasoulButton";
 
 export const Memories = () => {
   const [activeMemory, setActiveMemory] = useState(null);
   const mediaRef = useRef(null);
+  const carouselRef = useRef(null);
 
   useEffect(() => {
     if (!activeMemory) {
@@ -52,10 +55,31 @@ export const Memories = () => {
     }
   };
 
+  const scrollCarouselBy = (amount) => {
+    if (!carouselRef.current) {
+      return;
+    }
+
+    if (typeof carouselRef.current.scrollBy === "function") {
+      carouselRef.current.scrollBy({ left: amount, behavior: "smooth" });
+      return;
+    }
+
+    carouselRef.current.scrollLeft += amount;
+  };
+
+  const moveNext = () => {
+    scrollCarouselBy(600);
+  };
+
+  const movePrev = () => {
+    scrollCarouselBy(-650);
+  };
+
   return (
     <Page header="Memories">
       <MemoriesContainer>
-        <div className="wrapper">
+        <div className="wrapper" ref={carouselRef}>
           {memories.map((moment, index) => (
             <MemoryItem
               key={`${moment.title}-${index}`}
@@ -66,6 +90,10 @@ export const Memories = () => {
           ))}
         </div>
       </MemoriesContainer>
+      <Carasoul>
+        <NextButton flip onClick={movePrev} />
+        <NextButton onClick={moveNext} />
+      </Carasoul>
 
       {activeMemory ? (
         <Overlay role="dialog" aria-modal="true" onClick={() => setActiveMemory(null)}>
